@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import React from "react";
-import { useThemeContext } from "@/app/themeProvider/ThemeProvider";
+import { useThemeContext } from "@/app/(web)/themeProvider/ThemeProvider";
 import { FaUserCircle } from "react-icons/fa";
 import { MdDarkMode, MdOutlineLightMode } from "react-icons/md";
 
