@@ -1,9 +1,10 @@
 "use client";
+
 import Link from "next/link";
 import React from "react";
+import { useThemeContext } from "@/app/themeProvider/ThemeProvider";
 import { FaUserCircle } from "react-icons/fa";
 import { MdDarkMode, MdOutlineLightMode } from "react-icons/md";
-import { useThemeContext } from "@/app/themeProvider/ThemeProvider";
 
 type Props = {};
 
@@ -27,6 +28,7 @@ const Header = (props: Props) => {
               <MdOutlineLightMode
                 className="cursor-pointer"
                 onClick={() => {
+                  console.log("clicked");
                   setDarkTheme(false);
                   localStorage.removeItem("hotel-theme");
                 }}
@@ -35,7 +37,8 @@ const Header = (props: Props) => {
               <MdDarkMode
                 className="cursor-pointer"
                 onClick={() => {
-                  setDarkTheme(false);
+                  console.log("clicked");
+                  setDarkTheme(true);
                   localStorage.setItem("hotel-theme", "true");
                 }}
               />
