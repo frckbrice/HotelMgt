@@ -4,11 +4,11 @@ import { visionTool } from "@sanity/vision";
 import { schemaTypes } from "./schemas";
 
 export default defineConfig({
-  name: "default",
+  name: "HotelAV",
   title: "hotel-management",
 
-  projectId: "u1h1zels",
-  dataset: "production",
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID as string,
+  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
 
   basePath: "/studio",
 
