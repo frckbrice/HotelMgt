@@ -10,7 +10,7 @@ const review = {
       name: "user",
       title: "User",
       type: "reference",
-      to: [{ type: "hotelRoom" }],
+      to: [{ type: "user" }],
       validation: (Rule) => Rule.required(),
     }),
     defineField({
