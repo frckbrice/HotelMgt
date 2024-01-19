@@ -1,36 +1,100 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Welcome to HotelMT (Hotel Management app)
+This document outlines the structure, setup and functionalities of HotelMT app. It's is designed for developpers, contributors and users to understand the project and how it works.
 
-## Getting Started
+# Project Overview
+Name: HotelMT
 
-First, run the development server:
+**Description**: An online Application that help in room or suite booking a hotel.
+**Target audience**: Developers, programmers, students, and anyone interested in learning and practicing coding.
+**Tech stack**: Full stack application.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## About
+This app help for hotel room booking. There is a possibility for room, suite or residence booking.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## App
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+![home](/public/hotelmgt/hotelmgtFrontpage.png)
+![homedark](/public/hotelmgt/frontpagedark.png)
+![room_detail](/public/hotelmgt/bookedrooms.png) 
+![room_detail_dark](/public/hotelmgt/darkroomdetail.png) 
+![footer](/public/hotelmgt/hotelmgtfooter.png)
+![uploadFile](/public//hotelmgt/bookedrooms.png)  
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Learn More
+## Build with
+This project was built using the following technologies;
 
-To learn more about Next.js, take a look at the following resources:
+Frontend: NextJs, TypeScript, TailwindCss, 
+CMS: next-sanity, sanity.io, next-auth, 
+Assets: Storing images, icons, and other static files
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Prerequisites
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Knowledge about JS:
 
-## Deploy on Vercel
+- Basic data structures
+- Arrays
+- Functions
+- Constructors
+- Knowledge of webpack (optional)
+- CMS
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Clone project
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- To get a local copy up and running follow these simple example steps.
+- Clone this repository with `git@github.com:frckbrice/HotelMgt.git` using your terminal or command line.
+- Change to the project directory by entering: cd hotel-booking in the terminal.
+
+## Command line steps
+
+- $ git clone `$ git@github.com:frckbrice/HotelMgt.git`
+- $ `cd hotel-booking `
+- $ `git checkout feature/[name_of_the _feature]
+
+## Start App
+
+- run `npm install`
+- run `npm run dev` in your command line
+
+
+# Key functionalities
+
+- Hotel Room Management CRUD with Sanity.IO
+- Hotel Room Review
+- Room Booking
+- Checkout with Stripe
+- Stripe webhook
+- Light / Dark Mode with React Context
+- Search (Room Type  / Name)
+- Authentication with Auth.JS
+- Typescript
+- useSwr Hook
+- Deployment to Vercel
+  
+## Live Site
+
+[Link](https://hotel-mgt.vercel.app)
+
+## Author
+
+👤 **avom Brice**
+
+- GitHub: [@frckbrice](https://github.com/frckbrice)
+- Twitter: [@johndoe](https://twitter.com/evaristeavom)
+- LinkedIn: [John Doe](https://www.linkedin.com/in/avom-brice/)
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome!
+
+Feel free to check the [issues page](link to issue page on GitHub).
+
+## Show your support
+
+Give a ⭐️ if you like this project!
+
+## 📝 License (optional)
+
+This project is [MIT](./LICENSE) licensed.
+
+
