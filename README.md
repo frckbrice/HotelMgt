@@ -18,7 +18,7 @@ This app help for hotel room booking. There is a possibility for room, suite or 
 ![room_detail](/public/hotelmgt/bookedrooms.png) 
 ![room_detail_dark](/public/hotelmgt/darkroomdetail.png) 
 ![footer](/public/hotelmgt/hotelmgtfooter.png)
-![uploadFile](/public//hotelmgt/bookedrooms.png)  
+![uploadFile](/public//hotelmgt/darkroomdetail.png)  
 
 
 ## Build with
