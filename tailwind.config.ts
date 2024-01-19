@@ -18,6 +18,7 @@ const config: Config = {
         tertiary: {
           dark: "#F27405",
           light: "#F2C641",
+          // light: "#02Cf41",
         },
       },
       fontFamily: {
