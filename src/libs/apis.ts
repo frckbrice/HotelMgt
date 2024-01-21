@@ -28,5 +28,6 @@ export async function getRoom(slug: string) {
     { slug },
     { cache: "no-cache" }
   );
+  console.log("room from api file: ", result);
   return result;
 }

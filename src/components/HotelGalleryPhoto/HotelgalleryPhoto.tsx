@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Image as ImageType } from "../models/room";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { MdCancel } from "react-icons/md";
+
 const HotelPhotoGallery: FC<{ photos: ImageType[] }> = ({ photos }) => {
   const [currenPhotoIndex, setCurrentPhotoIndex] = useState(0);
   const [showModal, setShowModal] = useState(false);
@@ -23,10 +24,13 @@ const HotelPhotoGallery: FC<{ photos: ImageType[] }> = ({ photos }) => {
       prevIndex === photos.length - 1 ? 0 : prevIndex + 1
     );
   };
+
+  //* diplay count on the last photo (+5 for example)
   const maximumVisiblePhotos = 4;
   const totalPhotos = photos.length;
   const displayPhotos = photos.slice(1, maximumVisiblePhotos - 1);
   const remainingPhotosCount = totalPhotos - maximumVisiblePhotos;
+
   return (
     <div className="container mx-auto">
       <div className="grid md:grid-cols-2 relative gap-5 px-3">
