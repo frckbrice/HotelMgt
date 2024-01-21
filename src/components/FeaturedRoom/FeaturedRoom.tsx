@@ -8,7 +8,7 @@ type Props = {
 };
 const FeaturedRoom: FC<Props> = (props) => {
   const { featuredRoom } = props;
-  // console.log(featuredRoom);
+  // console.log(featuredRoom.images[0].url);
   return (
     <section className="flex md:flex-row flex-col px-4 py-10 items-center gap-12 container mx-auto">
       <div className="md:grid gap-8 grid-cols-1">
@@ -23,7 +23,7 @@ const FeaturedRoom: FC<Props> = (props) => {
         </div>
 
         <div className="grid grid-cols-2 gap-8 h-48">
-          {featuredRoom.images.splice(1, 2).map((image) => (
+          {featuredRoom.images.slice(0, 2).map((image: any) => (
             <div key={image._key} className="rounded-2xl overflow-hidden">
               <Image
                 src={image.url}

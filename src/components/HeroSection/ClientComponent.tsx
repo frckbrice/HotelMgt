@@ -30,7 +30,7 @@ const ClientComponent: FC<Props> = (props) => {
           </div>
         </div>
       </div>
-      {/* IMAGES */}
+      {/*The avantage here is image load fast than in the client components*/}
       {section2}
     </section>
   );
