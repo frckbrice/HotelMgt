@@ -20,7 +20,7 @@ const Rooms = () => {
   }, [searchParams]);
 
   async function fetchData() {
-    return getRooms();
+    return await getRooms();
   }
 
   const { data, error, isLoading } = useSWR("get/hotelRooms", fetchData);
@@ -49,6 +49,7 @@ const Rooms = () => {
       return true;
     });
   };
+
   const filteredRooms = filterRooms(data || []);
   return (
     <div className="container mx-auto pt-10">

@@ -30,15 +30,65 @@ export async function POST(req: Request, res: Response) {
     return new NextResponse(`Webhook Error: ${error.message}`, { status: 500 });
   }
 
-  //loaa our event
+  //   //loaa our event
+  //   switch (event.type) {
+  //     case checkout_session_completed:
+  //       const session = event.data.object;
+
+  //       console.log("session from checkout : ", session);
+
+  //       const {
+  //         // @ts-ignore
+  //         metadata: {
+  //           adults,
+  //           checkinDate,
+  //           checkoutDate,
+  //           children,
+  //           hotelRoom,
+  //           numberOfDays,
+  //           user,
+  //           discount,
+  //           totalPrice,
+  //         },
+  //       } = session;
+
+  //       await createBooking({
+  //         adults: Number(adults),
+  //         checkinDate,
+  //         checkoutDate,
+  //         children: Number(children),
+  //         hotelRoom,
+  //         numberOfDays: Number(numberOfDays),
+  //         discount: Number(discount),
+  //         totalPrice: Number(totalPrice),
+  //         user,
+  //       });
+
+  //       // Update the hotel room
+
+  //       await updateHotelRoom(hotelRoom);
+
+  //       return NextResponse.json("Booking successfull", {
+  //         status: 200,
+  //         statusText: "Booking Successfull",
+  //       });
+
+  //     default:
+  //       console.log(`Unhandled event type ${event.type}`);
+  //   }
+
+  //   return NextResponse.json("Event received", {
+  //     status: 200,
+  //     statusText: "Event received",
+  //   });
+  // }
+
+  // load our event
   switch (event.type) {
     case checkout_session_completed:
       const session = event.data.object;
-
-      console.log("session from checkout : ", session);
-
+      console.log(session);
       const {
-        // @ts-ignore
         metadata: {
           adults,
           checkinDate,
@@ -46,8 +96,8 @@ export async function POST(req: Request, res: Response) {
           children,
           hotelRoom,
           numberOfDays,
-          discount,
           user,
+          discount,
           totalPrice,
         },
       } = session;
@@ -63,22 +113,17 @@ export async function POST(req: Request, res: Response) {
         totalPrice: Number(totalPrice),
         user,
       });
-
-      // Update the hotel room
-
+      //   Update hotel Room
       await updateHotelRoom(hotelRoom);
-
-      return NextResponse.json("Booking successfull", {
+      return NextResponse.json("Booking successful", {
         status: 200,
-        statusText: "Booking Successfull",
+        statusText: "Booking Successful",
       });
-
     default:
       console.log(`Unhandled event type ${event.type}`);
   }
-
-  return NextResponse.json("Event received", {
+  return NextResponse.json("Event Received", {
     status: 200,
-    statusText: "Event received",
+    statusText: "Event Received",
   });
 }
