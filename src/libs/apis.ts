@@ -118,6 +118,8 @@ export const getUserBookings = async (userId: string) => {
     { cache: "no-cache" }
   );
 
+  console.log("user data: " + JSON.stringify(result));
+
   return result;
 };
 

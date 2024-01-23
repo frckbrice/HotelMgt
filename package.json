@@ -12,7 +12,7 @@
     "@sanity/vision": "^3.23.4",
     "@stripe/stripe-js": "^2.3.0",
     "axios": "^1.6.5",
-    "next": "14.0.4",
+    "next": "^14.1.0",
     "next-auth": "^4.24.5",
     "next-auth-sanity": "^1.5.3",
     "next-sanity": "^7.0.5",
