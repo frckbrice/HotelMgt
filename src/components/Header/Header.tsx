@@ -54,6 +54,7 @@ const Header = (props: Props) => {
                   setDarkTheme(false);
                   localStorage.removeItem("hotel-theme");
                 }}
+                size={30}
               />
             ) : (
               <MdDarkMode
@@ -63,6 +64,7 @@ const Header = (props: Props) => {
                   setDarkTheme(true);
                   localStorage.setItem("hotel-theme", "true");
                 }}
+                size={30}
               />
             )}
           </li>
