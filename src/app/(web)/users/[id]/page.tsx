@@ -42,7 +42,11 @@ const UserDetails = ({ params: { userId } }: Props) => {
 
   console.log("user data: " + userData);
 
-  return <div>page</div>;
+  return (
+    <div className=" flex justify-center items-center w-full h-full">
+      STILL ON BUILDING PROCESS
+    </div>
+  );
 };
 
 export default UserDetails;
