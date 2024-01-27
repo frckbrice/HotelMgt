@@ -1,5 +1,10 @@
 import { getServerSession } from "next-auth";
-import { getUserData } from "@/libs/apis";
+import {
+  checkReviewExist,
+  createReview,
+  getUserData,
+  updateReview,
+} from "@/libs/apis";
 import { authOptions } from "@/libs/auth";
 
 import { NextResponse } from "next/server";
@@ -12,6 +17,8 @@ export async function GET(
   res: Response
 ): Promise<User | Response> {
   const session = await getServerSession(authOptions);
+
+  console.log("session: " + (await session));
 
   if (!session) {
     console.log("user not logged in");
@@ -29,5 +36,52 @@ export async function GET(
   } catch (err) {
     console.log("error getting user data: ", err);
     return new NextResponse("Unable to get user data ", { status: 400 });
+  }
+}
+
+export async function POST(
+  req: Request,
+  res: Response
+): Promise<Response | undefined> {
+  const session = await getServerSession(authOptions);
+
+  if (!session)
+    return new NextResponse("Need to be logged in", { status: 500 });
+
+  const { roomId, reviewText, reviewValue } = await req.json();
+
+  if (!roomId || !reviewText || !reviewValue)
+    return new NextResponse("All the fieds are required", { status: 400 });
+
+  const userId = session.user.id;
+
+  try {
+    // check if the user already left a review for this booking
+
+    const existingUser = await checkReviewExist(userId, roomId);
+
+    console.log("existingUser ", existingUser);
+    let data: any;
+    if (existingUser)
+      data = await updateReview({
+        reviewId: existingUser._id,
+        reviewText,
+        userRating: reviewValue,
+      });
+    else
+      data = await createReview({
+        hotelRoomId: roomId,
+        reviewText,
+        userRating: reviewValue,
+        userId,
+      });
+
+    return NextResponse.json(data, {
+      status: 200,
+      statusText: "Review has been created successfully",
+    });
+  } catch (error) {
+    console.log("error updating the rating: ", error);
+    return new NextResponse("Unable to create a new review", { status: 500 });
   }
 }

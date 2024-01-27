@@ -12,6 +12,7 @@ import HotelPhotoGallery from "@/components/HotelGalleryPhoto/HotelgalleryPhoto"
 import toast from "react-hot-toast";
 import BookRoomCta from "@/components/BookRoomCta/BookRoomCta";
 import { getStripe } from "@/libs/stripe";
+import RoomReview from "@/components/Roomreview/RoomReview";
 // import RoomReview from "@/components/RoomReview/RoomReview";
 const RoomDetails = (props: { params: { slug: string } }) => {
   const {
@@ -27,7 +28,7 @@ const RoomDetails = (props: { params: { slug: string } }) => {
 
   const { data: room, error, isLoading } = useSWR("/api/room", fetchRoom);
 
-  if (error) throw new Error("Cannot fetch data");
+  if (error) throw new Error("Cannot fetch room data");
   if (typeof room === "undefined" && !isLoading)
     throw new Error("Cannot fetch data");
   if (!room) return <LoadingSpinner />;
@@ -157,8 +158,8 @@ const RoomDetails = (props: { params: { slug: string } }) => {
                   <p className="md:text-lg font-semibold">Customer Reviews</p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <span className=" text-red-400">In building process</span>{" "}
-                  {/* <RoomReview roomId={room._id} /> */}
+                  {/* <span className=" text-red-400">In building process</span>{" "} */}
+                  <RoomReview roomId={room._id} />
                 </div>
               </div>
             </div>

@@ -5,10 +5,10 @@ import { useRouter } from "next/navigation";
 type Props = {
   bookingDetails: Booking[];
   setRoomId: Dispatch<SetStateAction<string | null>>;
-  // toggleRatingModal: () => void;
+  toggleRatingModal: () => void;
 };
 
-const Table: FC<Props> = ({ bookingDetails, setRoomId }) => {
+const Table: FC<Props> = ({ bookingDetails, setRoomId, toggleRatingModal }) => {
   const router = useRouter();
 
   return (
@@ -48,7 +48,7 @@ const Table: FC<Props> = ({ bookingDetails, setRoomId }) => {
                 <button
                   onClick={() => {
                     setRoomId(booking.hotelRoom._id);
-                    // toggleRatingModal();
+                    toggleRatingModal();
                   }}
                   className="font-medium text-blue-600 hover:underline"
                 >

@@ -14,6 +14,9 @@ import { BsJournalBookmarkFill } from "react-icons/bs";
 import { GiMoneyStack } from "react-icons/gi";
 import Table from "@/components/Table/table";
 import Chart from "@/components/Chart/Chart";
+import RatingModal from "@/components/RatingModal/RatingModal";
+import BackDrop from "@/components/Backdrop/BackDrop";
+import toast from "react-hot-toast";
 
 type Props = {
   params: {
@@ -33,8 +36,37 @@ const UserDetails = ({ params: { id: userId }, FetchBooking }: Props) => {
   const [ratingValue, setRatingValue] = useState<number | null>(0);
   const [ratingText, setRatingText] = useState("");
 
+  const toggleRatingModal = () => setIsRatingVisible((prev) => !prev);
+
   const fetchUserBooking: typeof FetchBooking = async () =>
     await getUserBookings(userId);
+
+  const reviewSubmitHandler = async () => {
+    if (!ratingText.trim().length || !ratingValue)
+      return toast.error(" Rating text and rating value are needed!!");
+
+    if (!roomId) return toast.error("Please Select hotel Room needed!!");
+
+    try {
+      const { data } = await axios.post("/api/users", {
+        roomId,
+        reviewValue: ratingValue,
+        reviewText: ratingText,
+      });
+      toast.success("review successfully submitted");
+      setIsSubmittingReview(true);
+    } catch (error) {
+      console.log("error submitting submitting data", error);
+      toast.error("Error submitting data, Review failed");
+      setIsSubmittingReview(true);
+    } finally {
+      setRatingText("");
+      setRatingValue(0);
+      setRoomId(null);
+      setIsSubmittingReview(false);
+      setIsRatingVisible(false);
+    }
+  };
 
   const fetchUserData = async () => {
     const { data } = await axios.get<User>("/api/users");
@@ -61,7 +93,7 @@ const UserDetails = ({ params: { id: userId }, FetchBooking }: Props) => {
     throw new Error(`Cannot fetch data: `, error || errorGettingUserData);
   }
 
-  if ((typeof userBookings === "undefined" && !isLoading) || !userData)
+  if (typeof userBookings === "undefined" && !isLoading)
     throw new Error("Cannot fetch data");
   if (isLoading || loadingUserData) return <LoadingSpinner />;
 
@@ -69,10 +101,10 @@ const UserDetails = ({ params: { id: userId }, FetchBooking }: Props) => {
     <div className=" container mx-auto px-2 md:px-4 py-10">
       <div className=" grid grid-cols-12 gap-10">
         <div className=" hidden md:block col-span-4 lg:col-span-3 shadow-lg h-fit sticky to-10 ng-[#efff02]">
-          <div className=" md:w-[143px] w-30 h-28 md:h[143px] mx-auto mb-5 rounded-full overflow-hidden">
+          <div className=" md:w-[143px] w-28 h-28 md:h[143px] mx-auto mb-5 rounded-full overflow-hidden">
             <Image
-              src={userData.image ?? ""}
-              alt={userData.name}
+              src={userData?.image ?? ""}
+              alt={userData?.name ?? "image"}
               width={143}
               height={143}
               className=" img scale-animation rounded-full"
@@ -80,23 +112,27 @@ const UserDetails = ({ params: { id: userId }, FetchBooking }: Props) => {
           </div>
           <div className=" font-normal py-4 text-left">
             <h6 className=" text-xl font-bold pb-3">About</h6>
-            <p className=" text-sm ">{userData.about ?? ""}</p>
+            <p className=" text-sm ">{userData?.about ?? ""}</p>
           </div>
           <div className=" font-normal text-left">
-            <h6 className="text-xl font-bold pb-3">{userData.name}</h6>
+            <h6 className="text-xl font-bold pb-3">{userData?.name}</h6>
           </div>
           <div className=" flex items-center">
             <p className=" mr-4"> Sign Out</p>
             <FaSignOutAlt
               size={30}
               onClick={() => signOut({ callbackUrl: "/" })}
+              className=" cursor-pointer"
             />
           </div>
         </div>
 
         <div className=" md:col-span-8 lg:col-span-9">
           <div className="flex items-center">
-            <h5 className="text-2xl font-bold mr-3"> Hello, {userData.name}</h5>
+            <h5 className="text-2xl font-bold mr-3">
+              {" "}
+              Hello, {userData?.name}
+            </h5>
           </div>
           <div className="md:hidden w-14 h-14 rounded-l-full overflow-hidden ">
             <Image
@@ -108,16 +144,17 @@ const UserDetails = ({ params: { id: userId }, FetchBooking }: Props) => {
             />
           </div>
           <p className=" block w-fit md:hidden text-sm py-2">
-            {userData.about ?? ""}
+            {userData?.about ?? ""}
           </p>
           <p className=" text-xs py-2 font-medium">
-            joined In {userData._createdAt.split("T")[0]}
+            joined In {userData?._createdAt.split("T")[0]}
           </p>
           <div className=" md:hidden flex items-center my-2">
             <p className=" mr-2">Sign Out</p>
             <FaSignOutAlt
               size={30}
               onClick={() => signOut({ callbackUrl: "/" })}
+              className=" cursor-pointer"
             />
           </div>
           <nav className="sticky top-0 px-2 w-fit mx-auto md:w-full md:px-5 py-3 mb-8 text-gray-700 border border-gray-200 rounded-lg bg-gray-50 mt-7">
@@ -155,7 +192,11 @@ const UserDetails = ({ params: { id: userId }, FetchBooking }: Props) => {
 
           {currentNav === "bookings" ? (
             userBookings && (
-              <Table bookingDetails={userBookings} setRoomId={setRoomId} />
+              <Table
+                bookingDetails={userBookings}
+                setRoomId={setRoomId}
+                toggleRatingModal={toggleRatingModal}
+              />
             )
           ) : (
             <></>
@@ -168,6 +209,17 @@ const UserDetails = ({ params: { id: userId }, FetchBooking }: Props) => {
           )}
         </div>
       </div>
+      <RatingModal
+        isOpen={isRatingVisible}
+        ratingValue={ratingValue as number}
+        setRatingValue={setRatingValue!}
+        ratingText={ratingText}
+        setRatingText={setRatingText}
+        reviewSubmitHandler={reviewSubmitHandler}
+        isSubmittingReview={isSubmittingReview}
+        toggleRatingModal={toggleRatingModal}
+      />
+      <BackDrop isOpen={isRatingVisible} />
     </div>
   );
 };

@@ -36,12 +36,12 @@ const Header = (props: Props) => {
                     />
                   </div>
                 ) : (
-                  <FaUserCircle className="cursor-pointer" />
+                  <FaUserCircle className="cursor-pointer" size={30} />
                 )}
               </Link>
             ) : (
               <Link href="/auth">
-                <FaUserCircle className="cursor-pointer" />
+                <FaUserCircle className="cursor-pointer" size={30} />
               </Link>
             )}
           </li>
