@@ -9,6 +9,11 @@ import { Booking } from "@/components/models/booking";
 import Image from "next/image";
 import { FaSignOutAlt } from "react-icons/fa";
 import { signOut } from "next-auth/react";
+import { useState } from "react";
+import { BsJournalBookmarkFill } from "react-icons/bs";
+import { GiMoneyStack } from "react-icons/gi";
+import Table from "@/components/Table/table";
+import Chart from "@/components/Chart/Chart";
 
 type Props = {
   params: {
@@ -19,7 +24,14 @@ type Props = {
 };
 
 const UserDetails = ({ params: { id: userId }, FetchBooking }: Props) => {
-  // console.log("userId: " + userId);
+  const [currentNav, setCurrentNav] = useState<
+    "bookings" | "amount" | "ratings"
+  >("bookings");
+  const [roomId, setRoomId] = useState<string | null>(null);
+  const [isRatingVisible, setIsRatingVisible] = useState(false);
+  const [isSubmittingReview, setIsSubmittingReview] = useState(false);
+  const [ratingValue, setRatingValue] = useState<number | null>(0);
+  const [ratingText, setRatingText] = useState("");
 
   const fetchUserBooking: typeof FetchBooking = async () =>
     await getUserBookings(userId);
@@ -56,7 +68,7 @@ const UserDetails = ({ params: { id: userId }, FetchBooking }: Props) => {
   return (
     <div className=" container mx-auto px-2 md:px-4 py-10">
       <div className=" grid grid-cols-12 gap-10">
-        <div className=" hidden md:block col-span-4 lg:col-span-3 shadow-lg h-fit sticky to-10 ng-[#efff04]">
+        <div className=" hidden md:block col-span-4 lg:col-span-3 shadow-lg h-fit sticky to-10 ng-[#efff02]">
           <div className=" md:w-[143px] w-30 h-28 md:h[143px] mx-auto mb-5 rounded-full overflow-hidden">
             <Image
               src={userData.image ?? ""}
@@ -98,7 +110,62 @@ const UserDetails = ({ params: { id: userId }, FetchBooking }: Props) => {
           <p className=" block w-fit md:hidden text-sm py-2">
             {userData.about ?? ""}
           </p>
-          <p className=" text-xs py-2"></p>
+          <p className=" text-xs py-2 font-medium">
+            joined In {userData._createdAt.split("T")[0]}
+          </p>
+          <div className=" md:hidden flex items-center my-2">
+            <p className=" mr-2">Sign Out</p>
+            <FaSignOutAlt
+              size={30}
+              onClick={() => signOut({ callbackUrl: "/" })}
+            />
+          </div>
+          <nav className="sticky top-0 px-2 w-fit mx-auto md:w-full md:px-5 py-3 mb-8 text-gray-700 border border-gray-200 rounded-lg bg-gray-50 mt-7">
+            <ol
+              className={`${
+                currentNav === "bookings" ? "text-blue-600" : "text-gray-700"
+              } inline-flex mr-1 md:mr-5 items-center space-x-1 md:space-x-3`}
+            >
+              <li
+                onClick={() => setCurrentNav("bookings")}
+                className="inline-flex items-center cursor-pointer"
+              >
+                <BsJournalBookmarkFill />
+                <a className="inline-flex items-center mx-1 md:mx-3 text-xs md:text-sm font-medium">
+                  Current Bookings
+                </a>
+              </li>
+            </ol>
+            <ol
+              className={`${
+                currentNav === "amount" ? "text-blue-600" : "text-gray-700"
+              } inline-flex mr-1 md:mr-5 items-center space-x-1 md:space-x-3`}
+            >
+              <li
+                onClick={() => setCurrentNav("amount")}
+                className="inline-flex items-center cursor-pointer"
+              >
+                <GiMoneyStack />
+                <a className="inline-flex items-center mx-1 md:mx-3 text-xs md:text-sm font-medium">
+                  Amount Spent
+                </a>
+              </li>
+            </ol>
+          </nav>
+
+          {currentNav === "bookings" ? (
+            userBookings && (
+              <Table bookingDetails={userBookings} setRoomId={setRoomId} />
+            )
+          ) : (
+            <></>
+          )}
+
+          {currentNav === "amount" ? (
+            userBookings && <Chart userBookings={userBookings} />
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     </div>
