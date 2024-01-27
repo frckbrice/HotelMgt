@@ -1,4 +1,4 @@
-import { CreateBooingDto, Room } from "@/components/models/room";
+import { CreateBookingDto, Room } from "@/components/models/room";
 import sanityClient from "./sanity";
 import * as queries from "./sanityQuery";
 import axios from "axios";
@@ -45,7 +45,7 @@ export const createBooking = async ({
   numberOfDays,
   totalPrice,
   user,
-}: CreateBooingDto) => {
+}: CreateBookingDto) => {
   const mutation = {
     mutations: [
       {
@@ -118,7 +118,7 @@ export const getUserBookings = async (userId: string) => {
     { cache: "no-cache" }
   );
 
-  console.log("user data: " + JSON.stringify(result));
+  console.log("user data for UserBookings: " + JSON.stringify(result));
 
   return result;
 };

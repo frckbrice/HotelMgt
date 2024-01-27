@@ -46,3 +46,5 @@ export const authOptions: NextAuthOptions = {
     },
   },
 };
+
+//* This authOption object is always needed when authenticaticating with next-auth. In this particular case, we used next-auth with sanity via next-auth-sanity module.

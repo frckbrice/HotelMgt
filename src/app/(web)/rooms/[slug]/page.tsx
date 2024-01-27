@@ -45,13 +45,14 @@ const RoomDetails = (props: { params: { slug: string } }) => {
     if (!checkinDate || !checkoutDate)
       return toast.error("Please provide checkin / checkout date");
     if (checkinDate > checkoutDate)
-      return toast.error("Please choose a valid checkin period");
+      return toast.error("Please choose a valid checkin date");
 
     const numberOfDays = calcNumDays();
     const hotelRoomSlug = room.slug.current;
 
     const stripe = await getStripe();
     try {
+      //* create a payement session that will load stripe form payement
       const { data: stripeSession } = await axios.post("/api/stripe", {
         checkinDate,
         checkoutDate,
@@ -62,6 +63,7 @@ const RoomDetails = (props: { params: { slug: string } }) => {
       });
 
       if (stripe) {
+        //* the checkout page displays only when stripe session is created and returned to get the ID of that session.
         const result = await stripe.redirectToCheckout({
           sessionId: stripeSession.id,
         });
@@ -155,6 +157,7 @@ const RoomDetails = (props: { params: { slug: string } }) => {
                   <p className="md:text-lg font-semibold">Customer Reviews</p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <span className=" text-red-400">In building process</span>{" "}
                   {/* <RoomReview roomId={room._id} /> */}
                 </div>
               </div>
