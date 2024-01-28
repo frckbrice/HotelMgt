@@ -26,7 +26,7 @@ type Props = {
   FetchBooking: () => Promise<Booking[]>;
 };
 
-const UserDetails = ({ params: { id: userId }, FetchBooking }: Props) => {
+const UserDetails = ({ params, FetchBooking }: Props) => {
   const [currentNav, setCurrentNav] = useState<
     "bookings" | "amount" | "ratings"
   >("bookings");
@@ -35,6 +35,8 @@ const UserDetails = ({ params: { id: userId }, FetchBooking }: Props) => {
   const [isSubmittingReview, setIsSubmittingReview] = useState(false);
   const [ratingValue, setRatingValue] = useState<number | null>(0);
   const [ratingText, setRatingText] = useState("");
+
+  const { id: userId } = params;
 
   const toggleRatingModal = () => setIsRatingVisible((prev) => !prev);
 
@@ -224,4 +226,5 @@ const UserDetails = ({ params: { id: userId }, FetchBooking }: Props) => {
   );
 };
 
+// export default UserDetails;
 export default UserDetails;

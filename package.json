@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ducanh2912/next-pwa": "^10.2.2",
     "@sanity/vision": "^3.23.4",
     "@stripe/stripe-js": "^2.3.0",
     "axios": "^1.6.5",
