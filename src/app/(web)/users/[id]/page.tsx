@@ -23,10 +23,10 @@ type Props = {
     id: string;
   };
 
-  FetchBooking: () => Promise<Booking[]>;
+  // FetchBooking: () => Promise<Booking[]>;
 };
 
-const UserDetails = ({ params, FetchBooking }: Props) => {
+const UserDetails = ({ params }: Props) => {
   const [currentNav, setCurrentNav] = useState<
     "bookings" | "amount" | "ratings"
   >("bookings");
@@ -40,8 +40,7 @@ const UserDetails = ({ params, FetchBooking }: Props) => {
 
   const toggleRatingModal = () => setIsRatingVisible((prev) => !prev);
 
-  const fetchUserBooking: typeof FetchBooking = async () =>
-    await getUserBookings(userId);
+  const fetchUserBooking = async () => await getUserBookings(userId);
 
   const reviewSubmitHandler = async () => {
     if (!ratingText.trim().length || !ratingValue)

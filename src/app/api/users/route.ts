@@ -8,14 +8,11 @@ import {
 import { authOptions } from "@/libs/auth";
 
 import { NextResponse } from "next/server";
-import { User } from "@/components/models/user";
 
 console.log("entring api ");
 
-export async function GET(
-  req: Request,
-  res: Response
-): Promise<User | Response> {
+export async function GET(req: Request, res: Response) {
+  //*get logged in user credentials from session
   const session = await getServerSession(authOptions);
 
   console.log("session: " + (await session));
@@ -30,6 +27,7 @@ export async function GET(
   const userId = session.user.id;
 
   try {
+    //* get user from sanity backend
     const data = await getUserData(userId);
     // console.log("api user data: ", data);
     return NextResponse.json(data, { status: 200, statusText: " Successfull" });
@@ -39,10 +37,7 @@ export async function GET(
   }
 }
 
-export async function POST(
-  req: Request,
-  res: Response
-): Promise<Response | undefined> {
+export async function POST(req: Request, res: Response) {
   const session = await getServerSession(authOptions);
 
   if (!session)
@@ -56,8 +51,8 @@ export async function POST(
   const userId = session.user.id;
 
   try {
-    // check if the user already left a review for this booking
-
+    //* check if the user already left a review for this booking
+    //* if not we create a review else we update existing review
     const existingUser = await checkReviewExist(userId, roomId);
 
     console.log("existingUser ", existingUser);
