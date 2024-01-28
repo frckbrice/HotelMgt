@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import Header from "../../components/Header/Header";
@@ -17,6 +17,15 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: "Hotel booking App",
   description: "Come and discover the most luxury hotel the country Cameroon",
+  manifest: "/manifest.json",
+  icons: { apple: "/public/assets/icons/icon-512x512.png" },
+  formatDetection: {
+    telephone: false,
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#FFFFFF",
 };
 
 export default function RootLayout({

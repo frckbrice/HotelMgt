@@ -1,10 +1,11 @@
 "use client";
+import { useState } from "react";
 import useSWR from "swr";
 import { MdOutlineCleaningServices } from "react-icons/md";
 import { LiaFireExtinguisherSolid } from "react-icons/lia";
 import { AiOutlineMedicineBox } from "react-icons/ai";
 import { GiSmokeBomb } from "react-icons/gi";
-import { useState } from "react";
+
 import axios from "axios";
 import { getRoom } from "@/libs/apis";
 import LoadingSpinner from "../../loading";
@@ -12,6 +13,7 @@ import HotelPhotoGallery from "@/components/HotelGalleryPhoto/HotelgalleryPhoto"
 import toast from "react-hot-toast";
 import BookRoomCta from "@/components/BookRoomCta/BookRoomCta";
 import { getStripe } from "@/libs/stripe";
+import RoomReview from "@/components/Roomreview/RoomReview";
 // import RoomReview from "@/components/RoomReview/RoomReview";
 const RoomDetails = (props: { params: { slug: string } }) => {
   const {
@@ -27,7 +29,7 @@ const RoomDetails = (props: { params: { slug: string } }) => {
 
   const { data: room, error, isLoading } = useSWR("/api/room", fetchRoom);
 
-  if (error) throw new Error("Cannot fetch data");
+  if (error) throw new Error("Cannot fetch room data");
   if (typeof room === "undefined" && !isLoading)
     throw new Error("Cannot fetch data");
   if (!room) return <LoadingSpinner />;
@@ -45,13 +47,14 @@ const RoomDetails = (props: { params: { slug: string } }) => {
     if (!checkinDate || !checkoutDate)
       return toast.error("Please provide checkin / checkout date");
     if (checkinDate > checkoutDate)
-      return toast.error("Please choose a valid checkin period");
+      return toast.error("Please choose a valid checkin date");
 
     const numberOfDays = calcNumDays();
     const hotelRoomSlug = room.slug.current;
 
     const stripe = await getStripe();
     try {
+      //* create a payement session that will load stripe form payement
       const { data: stripeSession } = await axios.post("/api/stripe", {
         checkinDate,
         checkoutDate,
@@ -62,6 +65,7 @@ const RoomDetails = (props: { params: { slug: string } }) => {
       });
 
       if (stripe) {
+        //* the checkout page displays only when stripe session is created and returned to get the ID of that session.
         const result = await stripe.redirectToCheckout({
           sessionId: stripeSession.id,
         });
@@ -155,7 +159,8 @@ const RoomDetails = (props: { params: { slug: string } }) => {
                   <p className="md:text-lg font-semibold">Customer Reviews</p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {/* <RoomReview roomId={room._id} /> */}
+                  {/* <span className=" text-red-400">In building process</span>{" "} */}
+                  <RoomReview roomId={room._id} />
                 </div>
               </div>
             </div>

@@ -8,7 +8,7 @@ export type Booking = {
   };
   checkinDate: string;
   checkoutDate: string;
-  numberOfBeds: number;
+  numberOfDays: number;
   adults: number;
   children: number;
   totalPrice: number;

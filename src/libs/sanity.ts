@@ -9,3 +9,6 @@ const sanityClient = createClient({
 });
 
 export default sanityClient;
+
+//* this sanity client is always needed when connecting with sanity.
+// we need it in next-auth config authOption object.

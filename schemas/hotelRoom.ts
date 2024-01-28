@@ -30,7 +30,6 @@ const hotelRoom = {
       name: "description",
       title: "description",
       type: "text",
-
       validation: (Rule) =>
         Rule.required().min(100).error("minimum length is 100 characters"),
     }),

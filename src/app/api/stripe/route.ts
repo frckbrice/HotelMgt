@@ -1,8 +1,8 @@
+import Stripe from "stripe";
 import { getRoom } from "@/libs/apis";
 import { authOptions } from "@/libs/auth";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
-import Stripe from "stripe";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
   apiVersion: "2023-10-16",
@@ -57,37 +57,7 @@ export async function POST(req: Request, res: Response) {
     // this is unit price
     const totalPrice = discountPrice * numberOfDays;
 
-    //create stripe payement
-
-    // const stripeSession = await stripe.checkout.sessions.create({
-    //   mode: "payment",
-    //   line_items: [
-    //     {
-    //       quantity: 1,
-    //       price_data: {
-    //         currency: "usd",
-    //         product_data: {
-    //           name: room.name,
-    //           images: room.images.map((image) => image.url),
-    //         },
-    //         unit_amount: parseInt((totalPrice * 100).toString()),
-    //       },
-    //     },
-    //   ],
-    //   payment_method_types: ["card"],
-    //   success_url: `${origin}/users/${userId}`,
-    //   metadata: {
-    //     adults,
-    //     checkinDate: formattedCheckinDate,
-    //     checkoutDate: formattedCheckoutDate,
-    //     children,
-    //     hotelRoom: room._id,
-    //     numberOfDays,
-    //     discount: room.discount,
-    //     user: userId,
-    //     totalPrice,
-    //   },
-    // });
+    //*create stripe payement
 
     const stripeSession = await stripe.checkout.sessions.create({
       mode: "payment",

@@ -20,6 +20,7 @@ export async function POST(req: Request, res: Response) {
   let event: Stripe.Event;
 
   try {
+    //* we create our event object
     if (!sig || !webhookSecret) return;
     event = stripe.webhooks.constructEvent(reqBody, sig, webhookSecret);
   } catch (error: any) {
@@ -30,12 +31,13 @@ export async function POST(req: Request, res: Response) {
     return new NextResponse(`Webhook Error: ${error.message}`, { status: 500 });
   }
 
-  // load our event
+  //* load our event
   switch (event.type) {
     case checkout_session_completed:
       const session = event.data.object;
-      console.log(session);
+      console.log("session => ", session);
 
+      //* create a booking in sanity DB
       await createBooking({
         adults: Number(session.metadata?.adults),
         checkinDate: session.metadata?.checkinDate as string,
@@ -47,7 +49,8 @@ export async function POST(req: Request, res: Response) {
         totalPrice: Number(session.metadata?.totalPrice),
         user: session.metadata?.user as string,
       });
-      //   Update hotel Room
+
+      // *   Update hotel Room
       await updateHotelRoom(session.metadata?.hotelRoom as string);
       return NextResponse.json("Booking successful", {
         status: 200,
@@ -56,6 +59,8 @@ export async function POST(req: Request, res: Response) {
     default:
       console.log(`Unhandled event type ${event.type}`);
   }
+
+  //* return response to acknowledge receipt of event
   return NextResponse.json("Event Received", {
     status: 200,
     statusText: "Event Received",
